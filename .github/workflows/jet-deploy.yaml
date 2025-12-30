@@ -1,0 +1,57 @@
+name: ML Pipeline CI/CD
+
+on: 
+  push:
+    branches:
+      - dev
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    env:
+      PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      REGION: ${{ secrets.GCP_REGION }}
+      ARTIFACT_REPO: ${{ secrets.GCP_ARTIFACT_REPO }}
+      COMPOSER_ENV: ${{ secrets.GCP_COMPOSER_ENV }}
+      COMPOSER_BUCKET: ${{ secrets.GCP_COMPOSER_BUCKET }}
+      ENV: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+      
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Configure Docker to use Google Artifact Registry
+        run: |
+          gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
+
+      - name: Build and Push Training Image
+        run: |
+          docker build -t ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/training:${{ github.sha }} \
+                       -t ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/training:latest \
+                       -f Dockerfile.train .
+          docker push --all-tags ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/training
+
+      - name: Set Composer Environment Variables
+        continue-on-error: true
+        run: |
+          gcloud composer environments update ${{ env.COMPOSER_ENV }} \
+            --location ${{ env.REGION }} \
+            --update-env-variables ML_PROJECT_ID=${{ env.PROJECT_ID }},ML_REGION=${{ env.REGION }},ML_ARTIFACT_REPO=${{ env.ARTIFACT_REPO }},ENV=${{ env.ENV }}
+
+      - name: Copy DAGs to Cloud Composer
+        run: |
+          gcloud storage cp airflow/dags/*.py gs://${{ env.COMPOSER_BUCKET }}/dags/
