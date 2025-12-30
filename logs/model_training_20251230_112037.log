@@ -1,0 +1,2 @@
+2025-12-30 11:20:37,086 - __main__ - INFO - Load raw data
+2025-12-30 11:20:37,087 - src.modules.data_collection - INFO - Error loading data: [Errno 2] No such file or directory: '/Users/ani/Projects/skip_coding_interview/data/input/courier_location.csv'

@@ -2,3 +2,5 @@
 .venv/
 data/
 artifacts/
+JET_Project.egg-info/
+__pycache__

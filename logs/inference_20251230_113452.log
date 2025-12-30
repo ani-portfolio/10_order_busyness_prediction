@@ -1,0 +1,21 @@
+2025-12-30 11:34:52,330 - __main__ - INFO - Load raw data
+2025-12-30 11:34:52,362 - src.modules.data_validation - INFO - Schema validation passed
+2025-12-30 11:34:52,362 - __main__ - INFO - Process raw data
+2025-12-30 11:34:52,362 - src.scripts.data_processing - INFO - Data processing started...
+2025-12-30 11:35:04,514 - src.scripts.data_processing - INFO - Data processing complete...
+2025-12-30 11:35:04,515 - __main__ - INFO - Load encoder & model
+2025-12-30 11:35:07,259 - src.modules.model_registry - INFO - Loaded model: label_encoder
+2025-12-30 11:35:07,260 - src.modules.model_registry - INFO - Version ID: 10
+2025-12-30 11:35:07,261 - src.modules.model_registry - INFO - Alias: production
+2025-12-30 11:35:10,061 - src.modules.model_registry - INFO - Loaded model: trained_model
+2025-12-30 11:35:10,062 - src.modules.model_registry - INFO - Version ID: 10
+2025-12-30 11:35:10,062 - src.modules.model_registry - INFO - Alias: production
+2025-12-30 11:35:11,492 - __main__ - INFO - Encode Features
+2025-12-30 11:35:11,498 - src.modules.data_validation - INFO - Schema validation passed
+2025-12-30 11:35:11,499 - src.modules.data_validation - INFO - Null validation passed
+2025-12-30 11:35:11,499 - __main__ - INFO - Save inference input data
+2025-12-30 11:35:11,797 - __main__ - INFO - Predict
+2025-12-30 11:35:11,869 - __main__ - INFO - Save predictions
+2025-12-30 11:35:11,899 - __main__ - INFO - Inference completed 0:00:19.568957
+2025-12-30 11:35:11,899 - __main__ - INFO - Current memory usage: 0.00 MB
+2025-12-30 11:35:11,899 - __main__ - INFO - Peak memory usage: 0.00 MB

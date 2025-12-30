@@ -1,0 +1,30 @@
+2025-12-30 11:27:31,324 - __main__ - INFO - Load raw data
+2025-12-30 11:27:31,384 - src.modules.data_validation - INFO - Schema validation passed
+2025-12-30 11:27:31,387 - __main__ - INFO - Process raw data
+2025-12-30 11:27:31,387 - src.scripts.data_processing - INFO - Data processing started...
+2025-12-30 11:27:43,432 - src.scripts.data_processing - INFO - Data processing complete...
+2025-12-30 11:27:43,432 - __main__ - INFO - Encode data
+2025-12-30 11:27:43,438 - __main__ - INFO - Save training input data
+2025-12-30 11:27:43,740 - src.modules.data_validation - INFO - Schema validation passed
+2025-12-30 11:27:43,740 - src.modules.data_validation - INFO - Null validation passed
+2025-12-30 11:27:43,740 - __main__ - INFO - Save encoder
+2025-12-30 11:27:52,034 - src.modules.model_registry - INFO - Model saved to GCS: gs://jet-bucket-a/models/label_encoder/20251230_112743/model.pkl
+2025-12-30 11:27:52,035 - src.modules.model_registry - INFO - Model registered: projects/266857661098/locations/us-central1/models/6828889698744664064
+2025-12-30 11:27:52,035 - src.modules.model_registry - INFO - Alias 'production' assigned
+2025-12-30 11:27:52,035 - src.modules.model_registry - INFO - Version ID: 10
+2025-12-30 11:27:52,035 - __main__ - INFO - Train-Test split
+2025-12-30 11:27:52,055 - src.modules.data_validation - INFO - Schema validation passed
+2025-12-30 11:27:52,056 - src.modules.data_validation - INFO - Schema validation passed
+2025-12-30 11:27:52,056 - __main__ - INFO - Hyper-parameter tuning
+2025-12-30 11:27:52,057 - src.modules.train - INFO - Grid search best params
+2025-12-30 11:29:02,190 - __main__ - INFO - Test score r2 0.963968489328138
+2025-12-30 11:29:02,191 - __main__ - INFO - Refit model on all data
+2025-12-30 11:29:02,192 - src.modules.train - INFO - Re-fit model on all data using best params
+2025-12-30 11:29:04,639 - __main__ - INFO - Save refitted model
+2025-12-30 11:29:13,454 - src.modules.model_registry - INFO - Model saved to GCS: gs://jet-bucket-a/models/trained_model/20251230_112904/model.pkl
+2025-12-30 11:29:13,454 - src.modules.model_registry - INFO - Model registered: projects/266857661098/locations/us-central1/models/8627514799925755904
+2025-12-30 11:29:13,455 - src.modules.model_registry - INFO - Alias 'production' assigned
+2025-12-30 11:29:13,455 - src.modules.model_registry - INFO - Version ID: 10
+2025-12-30 11:29:13,455 - __main__ - INFO - Training completed in 0:01:42.130503
+2025-12-30 11:29:13,455 - __main__ - INFO - Current memory usage: 0.00 MB
+2025-12-30 11:29:13,455 - __main__ - INFO - Peak memory usage: 0.00 MB

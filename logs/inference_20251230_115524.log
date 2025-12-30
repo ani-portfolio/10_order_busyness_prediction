@@ -1,0 +1,25 @@
+2025-12-30 11:55:24,544 - __main__ - INFO - Load raw data
+2025-12-30 11:55:24,546 - src.modules.data_validation - INFO - Schema validation passed
+2025-12-30 11:55:24,546 - __main__ - INFO - Process raw data
+2025-12-30 11:55:24,546 - src.scripts.data_processing - INFO - Data processing started...
+2025-12-30 11:55:24,547 - src.scripts.data_processing - INFO - Load centroids
+2025-12-30 11:55:27,041 - src.modules.model_registry - INFO - Loaded object: centroids
+2025-12-30 11:55:27,043 - src.modules.model_registry - INFO - Version ID: 2
+2025-12-30 11:55:27,043 - src.modules.model_registry - INFO - Alias: production
+2025-12-30 11:55:27,943 - src.scripts.data_processing - INFO - Data processing complete...
+2025-12-30 11:55:27,943 - __main__ - INFO - Load encoder & model
+2025-12-30 11:55:29,672 - src.modules.model_registry - INFO - Loaded object: label_encoder
+2025-12-30 11:55:29,675 - src.modules.model_registry - INFO - Version ID: 12
+2025-12-30 11:55:29,675 - src.modules.model_registry - INFO - Alias: production
+2025-12-30 11:55:32,564 - src.modules.model_registry - INFO - Loaded object: trained_model
+2025-12-30 11:55:32,565 - src.modules.model_registry - INFO - Version ID: 12
+2025-12-30 11:55:32,566 - src.modules.model_registry - INFO - Alias: production
+2025-12-30 11:55:33,911 - __main__ - INFO - Encode Features
+2025-12-30 11:55:33,912 - src.modules.data_validation - INFO - Schema validation passed
+2025-12-30 11:55:33,913 - src.modules.data_validation - INFO - Null validation passed
+2025-12-30 11:55:33,913 - __main__ - INFO - Save inference input data
+2025-12-30 11:55:33,914 - __main__ - INFO - Predict
+2025-12-30 11:55:33,921 - __main__ - INFO - Save predictions
+2025-12-30 11:55:33,922 - __main__ - INFO - Inference completed 0:00:09.377547
+2025-12-30 11:55:33,922 - __main__ - INFO - Current memory usage: 0.00 MB
+2025-12-30 11:55:33,922 - __main__ - INFO - Peak memory usage: 0.00 MB

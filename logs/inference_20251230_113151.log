@@ -1,0 +1,4 @@
+2025-12-30 11:31:51,316 - __main__ - INFO - Load raw data
+2025-12-30 11:31:51,319 - src.modules.data_validation - INFO - Schema validation passed
+2025-12-30 11:31:51,319 - __main__ - INFO - Process raw data
+2025-12-30 11:31:51,319 - src.scripts.data_processing - INFO - Data processing started...

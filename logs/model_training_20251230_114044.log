@@ -1,0 +1,35 @@
+2025-12-30 11:40:44,688 - __main__ - INFO - Load raw data
+2025-12-30 11:40:44,722 - src.modules.data_validation - INFO - Schema validation passed
+2025-12-30 11:40:44,722 - __main__ - INFO - Process raw data
+2025-12-30 11:40:44,722 - src.scripts.data_processing - INFO - Data processing started...
+2025-12-30 11:40:56,151 - src.scripts.data_processing - INFO - Save centroids
+2025-12-30 11:41:01,710 - src.modules.model_registry - INFO - Model saved to GCS: gs://jet-bucket-a/models/centroids/20251230_114056/model.pkl
+2025-12-30 11:41:01,711 - src.modules.model_registry - INFO - Model registered: projects/266857661098/locations/us-central1/models/1659179538988400640
+2025-12-30 11:41:01,711 - src.modules.model_registry - INFO - Alias 'production' assigned
+2025-12-30 11:41:01,712 - src.modules.model_registry - INFO - Version ID: 1
+2025-12-30 11:41:02,774 - src.scripts.data_processing - INFO - Data processing complete...
+2025-12-30 11:41:02,774 - __main__ - INFO - Encode data
+2025-12-30 11:41:02,782 - __main__ - INFO - Save training input data
+2025-12-30 11:41:03,080 - src.modules.data_validation - INFO - Schema validation passed
+2025-12-30 11:41:03,081 - src.modules.data_validation - INFO - Null validation passed
+2025-12-30 11:41:03,081 - __main__ - INFO - Save encoder
+2025-12-30 11:41:07,597 - src.modules.model_registry - INFO - Model saved to GCS: gs://jet-bucket-a/models/label_encoder/20251230_114103/model.pkl
+2025-12-30 11:41:07,597 - src.modules.model_registry - INFO - Model registered: projects/266857661098/locations/us-central1/models/6828889698744664064
+2025-12-30 11:41:07,597 - src.modules.model_registry - INFO - Alias 'production' assigned
+2025-12-30 11:41:07,598 - src.modules.model_registry - INFO - Version ID: 11
+2025-12-30 11:41:07,598 - __main__ - INFO - Train-Test split
+2025-12-30 11:41:07,602 - src.modules.data_validation - INFO - Schema validation passed
+2025-12-30 11:41:07,602 - src.modules.data_validation - INFO - Schema validation passed
+2025-12-30 11:41:07,602 - __main__ - INFO - Hyper-parameter tuning
+2025-12-30 11:41:07,602 - src.modules.train - INFO - Grid search best params
+2025-12-30 11:41:15,247 - __main__ - INFO - Test score r2 0.9479434835721097
+2025-12-30 11:41:15,247 - __main__ - INFO - Refit model on all data
+2025-12-30 11:41:15,248 - src.modules.train - INFO - Re-fit model on all data using best params
+2025-12-30 11:41:17,771 - __main__ - INFO - Save refitted model
+2025-12-30 11:41:23,127 - src.modules.model_registry - INFO - Model saved to GCS: gs://jet-bucket-a/models/trained_model/20251230_114117/model.pkl
+2025-12-30 11:41:23,127 - src.modules.model_registry - INFO - Model registered: projects/266857661098/locations/us-central1/models/8627514799925755904
+2025-12-30 11:41:23,127 - src.modules.model_registry - INFO - Alias 'production' assigned
+2025-12-30 11:41:23,128 - src.modules.model_registry - INFO - Version ID: 11
+2025-12-30 11:41:23,128 - __main__ - INFO - Training completed in 0:00:38.439415
+2025-12-30 11:41:23,128 - __main__ - INFO - Current memory usage: 0.00 MB
+2025-12-30 11:41:23,128 - __main__ - INFO - Peak memory usage: 0.00 MB
