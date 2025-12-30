@@ -2,6 +2,7 @@ import pandas as pd
 from src import config
 from src.modules import feature_engineering, model_registry
 import logging
+from src.utils import route
 
 logger = logging.getLogger(__name__)
 
@@ -30,12 +31,12 @@ def process_data(df_raw_data: pd.DataFrame, mode: str) -> pd.DataFrame:
         centroids = feature_engineering.initiate_centroids(config.k, df_restaurants) #TODO Should this only happen during model training? The same centroids should then be used in inference
 
         logger.info('Save centroids')
-        model_registry.save_object_in_registry(centroids, 'centroids', config.gcp_project_id, config.gcp_region, config.gcp_bucket, 'production', "centroids.pkl")
+        route.save_artifact(centroids, 'centroids', 'centroids.pkl', 'production')
     
     elif mode == 'inference':
         
         logger.info('Load centroids')
-        centroids = model_registry.load_object_from_registry("centroids", "production", config.gcp_project_id, config.gcp_region)
+        centroids = route.load_artifact('centroids', 'centroids.pkl', 'production')
 
     df_processed = feature_engineering.centroid_assignation(df_processed, centroids)
 

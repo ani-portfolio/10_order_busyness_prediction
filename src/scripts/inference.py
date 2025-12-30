@@ -8,6 +8,7 @@ from src.scripts import data_processing
 from src.utils import logging
 import logging
 from src import config
+from src.utils import route
 
 logger = logging.getLogger(__name__)
 
@@ -24,8 +25,8 @@ def main():
     df_processed = data_processing.process_data(df_inference_data, mode='inference')
     
     logger.info('Load encoder & model')
-    encoder = model_registry.load_object_from_registry("label_encoder", "production", config.gcp_project_id, config.gcp_region)
-    model = model_registry.load_object_from_registry("trained_model", "production", config.gcp_project_id, config.gcp_region)
+    encoder = route.load_artifact('label_encoder', 'encoder.pkl', 'production')
+    model = route.load_artifact('trained_model', 'model.pkl', 'production')
 
     logger.info('Encode Features')
     for feature, enc in encoder.items():

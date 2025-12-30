@@ -1,35 +1,34 @@
+import os
+os.environ['ENV'] = 'local'
+
 import pandas as pd
 import joblib
-import os
-from src.scripts import model_training
 from src import config
+from src.scripts import model_training
 
 
 def test_model_training_pipeline(tmp_path):
     
-    # Setup - override config paths to use temp directory
-    config.raw_data_path = "/Users/ani/Projects/skip_coding_interview/data/pytest/data/raw_data_test.csv"
-    config.processed_data_path = tmp_path / "processed_data.csv"
-    config.encoder_path = tmp_path / "encoder.pkl"
-    config.trained_model_path = tmp_path / "model.pkl"
+    config.base = str(tmp_path)
+    config.training_input_data = str(tmp_path / "training_input_data.csv")
     
-    # Run pipeline
     model_training.main()
     
-    # Check outputs exist
-    assert os.path.exists(config.processed_data_path), "Processed data not saved"
-    assert os.path.exists(config.encoder_path), "Encoder not saved"
-    assert os.path.exists(config.trained_model_path), "Model not saved"
+    artifacts_path = tmp_path / "artifacts"
     
-    # Load and validate outputs
-    df_processed = pd.read_csv(config.processed_data_path)
-    encoder = joblib.load(config.encoder_path)
-    model = joblib.load(config.trained_model_path)
+    assert os.path.exists(config.training_input_data), "Processed data not saved"
+    assert os.path.exists(artifacts_path / "centroids.pkl"), "Centroids not saved"
+    assert os.path.exists(artifacts_path / "encoder.pkl"), "Encoder not saved"
+    assert os.path.exists(artifacts_path / "model.pkl"), "Model not saved"
     
-    # Check processed data
+    df_processed = pd.read_csv(config.training_input_data)
+    encoder = joblib.load(artifacts_path / "encoder.pkl")
+    centroids = joblib.load(artifacts_path / "centroids.pkl")
+    model = joblib.load(artifacts_path / "model.pkl")
+    
     assert not df_processed.empty, "Processed data is empty"
     assert all(col in df_processed.columns for col in config.feature_list), "Features missing"
     
-    # Check encoder
     assert encoder is not None, "Encoder is None"
-    
+    assert centroids is not None, "Centroids is None"
+    assert model is not None, "Model is None"

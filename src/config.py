@@ -21,6 +21,7 @@ inference_data_path = f'{base}/data/input/inference_data.csv'
 training_input_data = f'{base}/data/processed/training_input_data.csv'
 inference_input_data = f'{base}/data/processed/inference_input_data.csv'
 predictions_path = f'{base}/data/output/predictions.csv'
+centroids_path = f'{base}/artifacts/centroids.pkl'
 encoder_path = f'{base}/artifacts/label_encoder.pkl'
 trained_model_path = f'{base}/artifacts/trained_model.pkl'
 logger_path = 'logs/' if ENV == 'local' else None

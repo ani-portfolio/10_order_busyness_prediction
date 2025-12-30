@@ -1,14 +1,12 @@
-import os
-import joblib
 from datetime import timedelta
 import tracemalloc
 import time
-
 from src.modules import data_collection, encode, train, data_validation, model_registry
 from src.scripts import data_processing
 from src.utils import logging
 import logging
 from src import config
+from src.utils.route import save_artifact
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +32,7 @@ def main():
     data_validation.validate_nulls(df_processed, config.null_rules)
 
     logger.info('Save encoder')
-    model_registry.save_object_in_registry(encoder, 'label_encoder', config.gcp_project_id, config.gcp_region, config.gcp_bucket, 'production', "encoder.pkl")
+    save_artifact(encoder, 'label_encoder', 'encoder.pkl', 'production')
 
     logger.info('Train-Test split')
     X_train, X_test, y_train, y_test = train.split_data(df_processed, config.feature_list, config.target_variable, test_size=config.test_size, random_state=config.split_random_state)
@@ -53,7 +51,7 @@ def main():
     refitted_model = train.train_refitted_model(X_train, y_train, X_test, y_test, best_params)
 
     logger.info('Save refitted model')
-    model_registry.save_object_in_registry(refitted_model, 'trained_model', config.gcp_project_id, config.gcp_region, config.gcp_bucket, 'production', "model.pkl")
+    save_artifact(refitted_model, 'trained_model', 'model.pkl', 'production')
 
     end_time = time.time()
     training_time = end_time - start_time

@@ -7,36 +7,6 @@ collected 3 items
 
 tests/test_modules/test_encode.py .                                      [ 33%]
 tests/test_modules/test_feature_engineering.py .                         [ 66%]
-tests/test_scripts/test_model_training.py F                              [100%]
+tests/test_scripts/test_model_training.py .                              [100%]
 
-=================================== FAILURES ===================================
-_________________________ test_model_training_pipeline _________________________
-
-tmp_path = PosixPath('/private/var/folders/rx/jl4f7yr95xd03cgb4sg2w99h0000gn/T/pytest-of-ani/pytest-13/test_model_training_pipeline0')
-
-    def test_model_training_pipeline(tmp_path):
-    
-        # Setup - override config paths to use temp directory
-        config.raw_data_path = "/Users/ani/Projects/skip_coding_interview/data/pytest/data/raw_data_test.csv"
-        config.processed_data_path = tmp_path / "processed_data.csv"
-        config.encoder_path = tmp_path / "encoder.pkl"
-        config.trained_model_path = tmp_path / "model.pkl"
-    
-        # Run pipeline
-        model_training.main()
-    
-        # Check outputs exist
->       assert os.path.exists(config.processed_data_path), "Processed data not saved"
-E       AssertionError: Processed data not saved
-E       assert False
-E        +  where False = <function exists at 0x107837d80>(PosixPath('/private/var/folders/rx/jl4f7yr95xd03cgb4sg2w99h0000gn/T/pytest-of-ani/pytest-13/test_model_training_pipeline0/processed_data.csv'))
-E        +    where <function exists at 0x107837d80> = <module 'posixpath' (frozen)>.exists
-E        +      where <module 'posixpath' (frozen)> = os.path
-E        +    and   PosixPath('/private/var/folders/rx/jl4f7yr95xd03cgb4sg2w99h0000gn/T/pytest-of-ani/pytest-13/test_model_training_pipeline0/processed_data.csv') = config.processed_data_path
-
-tests/test_scripts/test_model_training.py:20: AssertionError
------------------------------ Captured stdout call -----------------------------
-Fitting 3 folds for each of 8 candidates, totalling 24 fits
-=========================== short test summary info ============================
-FAILED tests/test_scripts/test_model_training.py::test_model_training_pipeline
-========================= 1 failed, 2 passed in 45.12s =========================
+============================== 3 passed in 35.85s ==============================
