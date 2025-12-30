@@ -4,3 +4,11 @@ data/
 artifacts/
 JET_Project.egg-info/
 __pycache__
+
+# Local Airflow testing
+docker-compose.yaml
+.env
+logs/
+plugins/
+airflow.db
+airflow.cfg

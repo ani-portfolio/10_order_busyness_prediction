@@ -1,11 +1,7 @@
-import os
 from airflow import DAG
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 from datetime import datetime
-
-PROJECT_ID = os.getenv('ML_PROJECT_ID', 'jet-tha')
-REGION = os.getenv('ML_REGION', 'us-central1')
-ARTIFACT_REPO = os.getenv('ML_ARTIFACT_REPO', 'jet-docker')
+from config import IMAGE, IMAGE_PULL_POLICY, NAMESPACE, ENV, VOLUMES, VOLUME_MOUNTS
 
 with DAG(
     'ml_training_pipeline',
@@ -17,10 +13,13 @@ with DAG(
     train_task = KubernetesPodOperator(
         task_id='train_model',
         name='training-pod',
-        namespace='default',
-        image=f'{REGION}-docker.pkg.dev/{PROJECT_ID}/{ARTIFACT_REPO}/training:latest',
+        namespace=NAMESPACE,
+        image_pull_policy=IMAGE_PULL_POLICY,
+        image=IMAGE,
         cmds=['python', '-m', 'src.scripts.model_training'],
-        env_vars={'ENV': os.getenv('ENV', 'dev')},
+        env_vars={'ENV': ENV},
+        volumes=VOLUMES,
+        volume_mounts=VOLUME_MOUNTS,
         get_logs=True,
         is_delete_operator_pod=True,
     )
