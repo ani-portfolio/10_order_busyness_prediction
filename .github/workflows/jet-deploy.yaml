@@ -54,7 +54,6 @@ jobs:
           docker push --all-tags ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/inference
 
       - name: Deploy Model to Vertex AI Endpoint
-        if: github.ref == 'refs/heads/main'
         run: |
           IMAGE_URI="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/inference:${{ github.sha }}"
           
