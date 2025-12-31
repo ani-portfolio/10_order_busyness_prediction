@@ -21,6 +21,8 @@ def save_object_in_registry(
     """
 
     """
+
+    logger.info("Saving object to Registry...")
     
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     gcs_model_path = f"models/{model_display_name}/{timestamp}"
@@ -67,6 +69,8 @@ def load_object_from_registry(
     """
     
     """
+
+    logger.info("Loading object from Registry...")
 
     aiplatform.init(project=project_id, location=region)
     models = aiplatform.Model.list(filter=f'display_name="{display_name}"')
