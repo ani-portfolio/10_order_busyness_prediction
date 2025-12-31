@@ -52,19 +52,23 @@ jobs:
                        -t ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/inference:latest \
                        -f Dockerfile.inference .
           docker push --all-tags ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/inference
-
       - name: Deploy Model to Vertex AI Endpoint
         run: |
           IMAGE_URI="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/inference:${{ github.sha }}"
           
-          # Upload model
-          MODEL_ID=$(gcloud ai models upload \
+          # Upload model and get full resource name
+          MODEL_RESOURCE=$(gcloud ai models upload \
             --region=${{ env.REGION }} \
             --display-name=inference-model-${{ github.sha }} \
             --container-image-uri=$IMAGE_URI \
             --container-predict-route=/predict \
             --container-health-route=/health \
-            --format="value(name)" | awk -F'/' '{print $NF}')
+            --format="value(model)")
+          
+          # Extract MODEL_ID from resource name
+          MODEL_ID=$(echo $MODEL_RESOURCE | awk -F'/' '{print $NF}')
+          
+          echo "MODEL_ID: $MODEL_ID"
           
           # Deploy to existing endpoint
           gcloud ai endpoints deploy-model ${{ env.VERTEX_ENDPOINT_ID }} \
