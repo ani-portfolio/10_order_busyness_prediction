@@ -14,7 +14,6 @@ app = FastAPI()
 encoder = route.load_artifact('label_encoder', 'encoder.pkl', 'production')
 model = route.load_artifact('trained_model', 'model.pkl', 'production')
 
-
 @app.get("/health")
 def health():
     return {"status": "healthy"}

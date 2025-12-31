@@ -9,4 +9,4 @@ tests/test_modules/test_encode.py .                                      [ 33%]
 tests/test_modules/test_feature_engineering.py .                         [ 66%]
 tests/test_scripts/test_model_training.py .                              [100%]
 
-============================== 3 passed in 35.85s ==============================
+============================== 3 passed in 19.22s ==============================

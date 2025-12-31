@@ -15,7 +15,7 @@ def save_artifact(obj, name, filename, alias):
     else:
         model_registry.save_object_in_registry(
             obj, name, config.gcp_project_id, config.gcp_region,
-            config.gcp_bucket, alias, filename
+            config.gcp_bucket, alias
         )
         logger.info(f'Saved {name} to Model Registry')
 
@@ -28,5 +28,5 @@ def load_artifact(name, filename, alias):
         logger.info(f'Load {name} from Model Registry')
         return model_registry.load_object_from_registry(
             name, config.gcp_project_id, config.gcp_region,
-            config.gcp_bucket, alias, filename
+            config.gcp_bucket, alias
         )

@@ -3,10 +3,10 @@ import os
 ################################################################ ENV CONFIG
 ENV = os.getenv('ENV', 'local')  
 
-gcp_project_id = os.getenv('ML_PROJECT_ID', 'jet-tha')
-gcp_region = os.getenv('ML_REGION', 'us-central1')
-gcp_artifact_repo = os.getenv('ML_ARTIFACT_REPO', 'jet-docker')
-gcp_bucket = os.getenv('GCS_BUCKET', 'jet-bucket-a')
+gcp_project_id = os.getenv('GCP_PROJECT_ID', 'jet-tha')
+gcp_region = os.getenv('GCP_REGION', 'us-central1')
+gcp_artifact_repo = os.getenv('GCP_ARTIFACT_REPO', 'jet-docker')
+gcp_bucket = os.getenv('GCP_BUCKET', 'jet-bucket-a')
 
 BASE_PATH = {
     'local': '/Users/ani/Projects/JET_TAKE_HOME_ASSIGNMENT',
