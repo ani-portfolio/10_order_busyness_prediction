@@ -20,6 +20,7 @@ jobs:
       ARTIFACT_REPO: ${{ secrets.GCP_ARTIFACT_REPO }}
       COMPOSER_ENV: ${{ secrets.GCP_COMPOSER_ENV }}
       COMPOSER_BUCKET: ${{ secrets.GCP_COMPOSER_BUCKET }}
+      VERTEX_ENDPOINT_ID: ${{ secrets.GCP_VERTEX_ENDPOINT_ID }}
       ENV: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
       
     steps:
@@ -44,6 +45,37 @@ jobs:
                        -t ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/training:latest \
                        -f Dockerfile.train .
           docker push --all-tags ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/training
+
+      - name: Build and Push Inference Image
+        run: |
+          docker build -t ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/inference:${{ github.sha }} \
+                       -t ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/inference:latest \
+                       -f Dockerfile.inference .
+          docker push --all-tags ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/inference
+
+      - name: Deploy Model to Vertex AI Endpoint
+        if: github.ref == 'refs/heads/main'
+        run: |
+          IMAGE_URI="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/inference:${{ github.sha }}"
+          
+          # Upload model
+          MODEL_ID=$(gcloud ai models upload \
+            --region=${{ env.REGION }} \
+            --display-name=inference-model-${{ github.sha }} \
+            --container-image-uri=$IMAGE_URI \
+            --container-predict-route=/predict \
+            --container-health-route=/health \
+            --format="value(name)" | awk -F'/' '{print $NF}')
+          
+          # Deploy to existing endpoint
+          gcloud ai endpoints deploy-model ${{ env.VERTEX_ENDPOINT_ID }} \
+            --region=${{ env.REGION }} \
+            --model=$MODEL_ID \
+            --display-name=deployment-${{ github.sha }} \
+            --machine-type=n1-standard-4 \
+            --min-replica-count=1 \
+            --max-replica-count=3 \
+            --traffic-split=0=100
 
       - name: Set Composer Environment Variables
         continue-on-error: true
