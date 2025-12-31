@@ -56,21 +56,18 @@ jobs:
         run: |
           IMAGE_URI="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/inference:${{ github.sha }}"
           
-          # Upload model and get full resource name
+          # Upload model with ENV variable
           MODEL_RESOURCE=$(gcloud ai models upload \
             --region=${{ env.REGION }} \
             --display-name=inference-model-${{ github.sha }} \
             --container-image-uri=$IMAGE_URI \
             --container-predict-route=/predict \
             --container-health-route=/health \
+            --container-env-vars=ENV=${{ env.ENV }} \
             --format="value(model)")
           
-          # Extract MODEL_ID from resource name
           MODEL_ID=$(echo $MODEL_RESOURCE | awk -F'/' '{print $NF}')
           
-          echo "MODEL_ID: $MODEL_ID"
-          
-          # Deploy to existing endpoint
           gcloud ai endpoints deploy-model ${{ env.VERTEX_ENDPOINT_ID }} \
             --region=${{ env.REGION }} \
             --model=$MODEL_ID \

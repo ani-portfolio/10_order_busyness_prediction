@@ -1,4 +1,3 @@
-# src/utils/artifacts.py
 import os
 import joblib
 import logging
