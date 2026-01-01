@@ -1,0 +1,28 @@
+name: ML Pipeline CI/CD
+
+on: 
+  push:
+    branches:
+      - productionize
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    env:
+      PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      REGION: ${{ secrets.GCP_REGION }}
+      ARTIFACT_REPO: ${{ secrets.GCP_ARTIFACT_REPO }}
+      COMPOSER_ENV: ${{ secrets.GCP_COMPOSER_ENV }}
+      COMPOSER_BUCKET: ${{ secrets.GCP_COMPOSER_BUCKET }}
+      VERTEX_ENDPOINT_ID: ${{ secrets.GCP_VERTEX_ENDPOINT_ID }}
+      ENV: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+    
+    steps:
+      - name: Debug bucket path
+        run: |
+          echo "Bucket: ${{ env.COMPOSER_BUCKET }}"
