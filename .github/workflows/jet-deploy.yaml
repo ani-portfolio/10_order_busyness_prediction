@@ -56,6 +56,16 @@ jobs:
                        -t ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/inference:latest \
                        -f Dockerfile.inference .
           docker push --all-tags ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/inference
+      - name: Set Composer Environment Variables
+        continue-on-error: true
+        run: |
+          gcloud composer environments update ${{ env.COMPOSER_ENV }} \
+            --location ${{ env.REGION }} \
+            --update-env-variables ML_PROJECT_ID=${{ env.PROJECT_ID }},ML_REGION=${{ env.REGION }},ML_ARTIFACT_REPO=${{ env.ARTIFACT_REPO }},ENV=${{ env.ENV }}
+
+      - name: Copy DAGs to Cloud Composer
+        run: |
+          gcloud storage cp airflow/dags/*.py gs://${{ env.COMPOSER_BUCKET }}/dags/
       - name: Deploy Model to Vertex AI Endpoint
         run: |
           IMAGE_URI="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/inference:${{ github.sha }}"
@@ -81,14 +91,4 @@ jobs:
             --max-replica-count=3 \
             --traffic-split=0=100 \
             --service-account=${{ secrets.GCP_SA_NAME }}
-
-      - name: Set Composer Environment Variables
-        continue-on-error: true
-        run: |
-          gcloud composer environments update ${{ env.COMPOSER_ENV }} \
-            --location ${{ env.REGION }} \
-            --update-env-variables ML_PROJECT_ID=${{ env.PROJECT_ID }},ML_REGION=${{ env.REGION }},ML_ARTIFACT_REPO=${{ env.ARTIFACT_REPO }},ENV=${{ env.ENV }}
-
-      - name: Copy DAGs to Cloud Composer
-        run: |
-          gcloud storage cp airflow/dags/*.py gs://${{ env.COMPOSER_BUCKET }}/dags/
+            
