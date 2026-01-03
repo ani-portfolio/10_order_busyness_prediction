@@ -12,7 +12,8 @@ def label_encoder(df: pd.DataFrame) -> pd.DataFrame:
     """
 
     df_copy = df.copy()
-    columnsToEncode = list(df_copy.select_dtypes(include=['category', 'object']))
+    columnsToEncode = list(df_copy.select_dtypes(include=['category', 'object'])) #TODO specify which columns need to be encoded? In the future, other object columns may need to be encoded differently? 
+    #TODO decision tree model should be configured to treat h3_index as a categorical column?
     
     encoder_dict = {}
     for feature in columnsToEncode:
