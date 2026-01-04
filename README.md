@@ -1,12 +1,10 @@
 # Order Busyness Prediction
 
-## Project Overview
-
-Predict order busyness based on courier locations, restaurant locations, and datetime.
+Predict order busyness using real-time courier and restaurant location data.
 
 ## Documentation
 
-[Notes & Assumptions](docs/JET_takehome_ani_dharmarajan_02jan2025.pdf)
+[Notes & Assumptions](docs/JET_Takehome_Ani_Dharmarajan_04Jan2025.pdf)
 
 ## System Architecture
 
