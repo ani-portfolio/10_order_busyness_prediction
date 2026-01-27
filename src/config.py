@@ -9,7 +9,6 @@ gcp_artifact_repo = os.getenv('GCP_ARTIFACT_REPO', 'jet-docker')
 gcp_bucket = os.getenv('GCP_BUCKET', 'jet-bucket-a')
 
 BASE_PATH = {
-    'local': '/Users/ani/Projects/JET_TAKE_HOME_ASSIGNMENT',
     'dev': 'gs://jet-bucket-a'
 }
 
